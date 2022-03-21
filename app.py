@@ -194,7 +194,7 @@ def time_on_page(dataset):
   
 weblog_df = time_on_page(weblog_df)
 
-weblog_df['time_on_page'] = pd.to_datetime(weblog_df['time_on_page'], format='%X')
+weblog_df['time_on_page'] = pd.to_datetime(weblog_df['time_on_page'], format='%n days %H:%M:%S')
 
 def is_idle(dataset):
     is_idle = []
