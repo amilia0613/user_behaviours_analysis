@@ -194,12 +194,14 @@ def time_on_page(dataset):
   
 weblog_df = time_on_page(weblog_df)
 
+weblog_df['total_seconds'] = pd.to_timedelta(weblog_df['time_on_page']).view(np.int64) / 1e9
+
 def is_idle(dataset):
     is_idle = []
 
     for i in range(0, len(dataset)):
-        if (dataset["time_on_page"][i].total_seconds() >= (30 * 60)) or (
-                dataset["time_on_page"][i].total_seconds() == 0 or dataset["page_category"][i] == "logout"):
+        if (dataset["total_seconds"][i] >= (30 * 60)) or (
+                dataset["total_seconds"][i] == 0 or dataset["page_category"][i] == "logout"):
             is_idle.append(True)
         else:
             is_idle.append(False)
