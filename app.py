@@ -213,20 +213,14 @@ weblog_df = is_idle(weblog_df)
 
 def session_identification(dataset):
     session_identification = []
-    unique_values = dataset['user'].unique()
-    dataset['session_identification']=[0 for i in range(len(dataset))]
-    for i in unique_values:
-        count = 1
-        temp = dataset[dataset['user'] == i]
-        #temp = temp.reset_index(drop=True)
-        for j in temp.index:
-            if (dataset['is_idle'][j] == False):
-                dataset["session_identification"][j]=count
-
+    count = 1
+    for i in range(len(dataset):
+        if (dataset['is_idle'][i] == False):
+                session_identification.append(count)
             else:
-                dataset["session_identification"][j]=count
+                session_identification.append(count)
                 count += 1
-
+    dataset['session_identification'] = session_identification
     return dataset
 
 weblog_df = session_identification(weblog_df)
