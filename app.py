@@ -113,10 +113,7 @@ def time_on_page(dataset):
                 future = temp['datetime'][indexes[j + 1]]
 
                 diff = future - past
-                if diff == datetime.timedelta(seconds=0):
-                    dataset["time_on_page"][indexes[j]] = datetime.timedelta(seconds=1)
-                else:
-                    dataset["time_on_page"][indexes[j]] = diff
+                dataset["time_on_page"][indexes[j]] = diff
 
             except:
                 dataset["time_on_page"][indexes[j]] = datetime.timedelta(seconds=0)
