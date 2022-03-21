@@ -1,0 +1,22 @@
+﻿,support,itemsets
+0,0.07287933094384708,frozenset({'dashboard'})
+1,0.043010752688172046,frozenset({'faq'})
+2,0.07048984468339307,frozenset({'landing_page'})
+3,0.2789725209080048,frozenset({'login'})
+4,0.07347670250896057,frozenset({'main_page'})
+5,0.04181600955794504,frozenset({'profile'})
+6,0.8195937873357229,frozenset({'quiz'})
+7,0.04838709677419355,frozenset({'scoreboard'})
+8,0.04360812425328554,frozenset({'sign_up'})
+9,0.06212664277180406,"frozenset({'dashboard', 'login'})"
+10,0.04002389486260454,"frozenset({'dashboard', 'profile'})"
+11,0.04420549581839905,"frozenset({'dashboard', 'scoreboard'})"
+12,0.04002389486260454,"frozenset({'scoreboard', 'faq'})"
+13,0.04838709677419355,"frozenset({'login', 'landing_page'})"
+14,0.04062126642771804,"frozenset({'quiz', 'landing_page'})"
+15,0.18936678614097968,"frozenset({'login', 'quiz'})"
+16,0.04241338112305854,"frozenset({'scoreboard', 'login'})"
+17,0.04241338112305854,"frozenset({'login', 'sign_up'})"
+18,0.04002389486260454,"frozenset({'scoreboard', 'profile'})"
+19,0.04181600955794504,"frozenset({'dashboard', 'login', 'scoreboard'})"
+20,0.04002389486260454,"frozenset({'dashboard', 'scoreboard', 'profile'})"
