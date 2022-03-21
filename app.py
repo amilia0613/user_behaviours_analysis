@@ -166,7 +166,7 @@ weblog_df = pd.read_csv(weblog_path)
 
 weblog_df = weblog_df.drop(["Unnamed: 0", "Unnamed: 0.1"], axis=1)
 
-weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%d/%b/%Y:%H:%M:%S %z')
+weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%d/%b/%Y:%X %z')
 
 weblog_df['time_on_page'] = ''
 
@@ -193,8 +193,6 @@ def time_on_page(dataset):
     return dataset
   
 weblog_df = time_on_page(weblog_df)
-
-weblog_df['time_on_page'] = pd.to_datetime(weblog_df['time_on_page'], format='%n days %H:%M:%S')
 
 def is_idle(dataset):
     is_idle = []
