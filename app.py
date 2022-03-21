@@ -82,10 +82,6 @@ with open(path, 'w', encoding = 'utf-8-sig') as f:
 weblog_path = os.path.join("weblog_df.csv")
 weblog_df = pd.read_csv(weblog_path)
 
-weblog_df['request'] = weblog_df['request'].astype('string')
-
-weblog_df.request = weblog_df.request.fillna('covid-19')
-
 page_cluster = weblog_df.groupby('page_category')['request'].count()
 page_cluster = page_cluster.reset_index()
 page_cluster.columns = ['page_category', 'num_of_hits']
@@ -95,7 +91,6 @@ weblog_df['time_on_page'] = ''
 weblog_df['user'] = weblog_df['user'].astype('category')
 weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%d/%b/%Y:%H:%M:%S %z')
 weblog_df['method'] = weblog_df['method'].astype('category')
-weblog_df['status'] = weblog_df['status'].astype('int16')
 
 weblog_df['datetime'][3]-weblog_df['datetime'][2]
 
@@ -171,38 +166,32 @@ weblog_df = pd.read_csv(weblog_path)
 
 weblog_df = weblog_df.drop(["Unnamed: 0", "Unnamed: 0.1"], axis=1)
 
-weblog_df['request'] = weblog_df['request'].astype('string')
-
-weblog_df.request = weblog_df.request.fillna('covid-19')
-
 weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%d/%b/%Y:%H:%M:%S %z')
 
 weblog_df['time_on_page'] = ''
 
 def time_on_page(dataset):
     unique_values = dataset['user'].unique()
-    temp_2 = []
-
+    temp_2=[]
+    
     for i in unique_values:
         temp = dataset[dataset['user'] == i]
-        indexes = temp.index
-
-        for j in range(len(indexes)):
+        
+        temp = temp.reset_index(drop=True)
+        
+        for j in range(len(temp)):
             try:
-                past = temp['datetime'][indexes[j]]
-                future = temp['datetime'][indexes[j + 1]]
-
+                past = temp['datetime'][i]
+                future = temp['datetime'][i + 1]
                 diff = future - past
-                if diff == datetime.timedelta(seconds=0):
-                    dataset["time_on_page"][indexes[j]] = datetime.timedelta(seconds=1)
-                else:
-                    dataset["time_on_page"][indexes[j]] = diff
-
+                
+                temp_2.append([diff])
+                
             except:
-                dataset["time_on_page"][indexes[j]] = datetime.timedelta(seconds=0)
-
+                temp_2.append([datetime.timedelta(seconds=0)])
+                
     return dataset
-
+  
 weblog_df = time_on_page(weblog_df)
 
 def is_idle(dataset):
