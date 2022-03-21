@@ -89,7 +89,7 @@ page_cluster.columns = ['page_category', 'num_of_hits']
 weblog_df['time_on_page'] = ''
 
 weblog_df['user'] = weblog_df['user'].astype('category')
-weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%d/%m/%Y:%H:%M:%S %z')
+weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%-d/%b/%Y:%H:%M:%S %z')
 weblog_df['method'] = weblog_df['method'].astype('category')
 
 weblog_df['datetime'][3]-weblog_df['datetime'][2]
