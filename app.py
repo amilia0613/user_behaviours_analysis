@@ -217,7 +217,7 @@ def session_identification(dataset):
     for i in range(len(dataset)):
         if (dataset['is_idle'][i] == False):
                 session_identification.append(count)
-            else:
+        else:
                 session_identification.append(count)
                 count += 1
     dataset['session_identification'] = session_identification
