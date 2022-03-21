@@ -214,7 +214,7 @@ weblog_df = is_idle(weblog_df)
 def session_identification(dataset):
     session_identification = []
     count = 1
-    for i in range(len(dataset):
+    for i in range(len(dataset)):
         if (dataset['is_idle'][i] == False):
                 session_identification.append(count)
             else:
