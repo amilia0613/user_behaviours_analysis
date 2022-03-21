@@ -101,23 +101,24 @@ weblog_df['datetime'][3]-weblog_df['datetime'][2]
 
 def time_on_page(dataset):
     unique_values = dataset['user'].unique()
-    temp_2 = []
-
+    temp_2=[]
+    
     for i in unique_values:
         temp = dataset[dataset['user'] == i]
-        indexes = temp.index
-
-        for j in range(len(indexes)):
+        
+        temp = temp.reset_index(drop=True)
+        
+        for j in range(len(temp)):
             try:
-                past = temp['datetime'][indexes[j]]
-                future = temp['datetime'][indexes[j + 1]]
-
+                past = temp['datetime'][i]
+                future = temp['datetime'][i + 1]
                 diff = future - past
-                dataset["time_on_page"][indexes[j]] = diff
-
+                
+                temp_2.append([diff])
+                
             except:
-                dataset["time_on_page"][indexes[j]] = datetime.timedelta(seconds=0)
-
+                temp_2.append([datetime.timedelta(seconds=0)])
+                
     return dataset
 
 weblog_df = time_on_page(weblog_df)
