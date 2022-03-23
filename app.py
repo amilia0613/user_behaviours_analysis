@@ -311,12 +311,13 @@ def index():
     }
 
     #Bar Plot - Most Popular Date
-    plt.figure(figsize=(10, 6))
-    weblog.groupby('date').size().plot(kind='bar')
-    plt.title('Most Popular Date of Logins in July 2021', fontsize=20)
-    plt.xlabel('Date', fontsize=12)
-    plt.ylabel('Number of Users Browse the Website', fontsize=12)
-    plt.savefig('popular_date.png', bbox_inches="tight")
+    plt.rcParams['figure.figsize'] = (10, 6)
+    color = plt.cm.winter(np.linspace(0, 1, 50))
+    weblog['user'].value_counts().head(10).plot.barh(color = color)
+    plt.title('Top 30 Active Users IP Address', fontsize = 20)
+    plt.xlabel('Frequency of Users Visiting the Website', fontsize = 12)
+    plt.ylabel('Users IP Address', fontsize = 12)
+    plt.savefig('active_user.png',bbox_inches="tight") 
 
     # bagian ini digunakan untuk mengconvert matplotlib png ke base64 agar dapat ditampilkan ke template html
     figfile = BytesIO()
