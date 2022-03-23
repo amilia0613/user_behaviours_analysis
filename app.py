@@ -103,7 +103,7 @@ def time_on_page(dataset):
         
         temp = temp.reset_index(drop=True)
         
-        for j in range(len(temp)):
+        for i in range(len(temp)):
             try:
                 past = temp['datetime'][i]
                 future = temp['datetime'][i + 1]
@@ -179,7 +179,7 @@ def time_on_page(dataset):
         
         temp = temp.reset_index(drop=True)
         
-        for j in range(len(temp)):
+        for i in range(len(temp)):
             try:
                 past = temp['datetime'][i]
                 future = temp['datetime'][i + 1]
