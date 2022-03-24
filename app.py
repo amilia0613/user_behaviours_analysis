@@ -94,26 +94,31 @@ weblog_df['method'] = weblog_df['method'].astype('category')
 
 weblog_df['datetime'][3]-weblog_df['datetime'][2]
 
+#Calculate users' time on page 
+import datetime
+
 def time_on_page(dataset):
     unique_values = dataset['user'].unique()
     temp_2=[]
     
     for i in unique_values:
         temp = dataset[dataset['user'] == i]
+        indexes=temp.index
         
-        temp = temp.reset_index(drop=True)
-        
-        for i in range(len(temp)):
+        for j in range(len(indexes)):
             try:
-                past = temp['datetime'][i]
-                future = temp['datetime'][i + 1]
+                past = temp['datetime'][indexes[j]]
+                future = temp['datetime'][indexes[j+1]]
+
                 diff = future - past
-                
-                temp_2.append([diff])
-                
+                if diff==datetime.timedelta(seconds=0):
+                    dataset["time_on_page"][indexes[j]]=datetime.timedelta(seconds=1)
+                else:  
+                    dataset["time_on_page"][indexes[j]]=diff
+
             except:
-                temp_2.append([datetime.timedelta(seconds=0)])
-                
+                dataset["time_on_page"][indexes[j]]=datetime.timedelta(seconds=0)
+
     return dataset
 
 weblog_df = time_on_page(weblog_df)
