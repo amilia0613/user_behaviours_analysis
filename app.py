@@ -8,6 +8,7 @@ import os
 import matplotlib.pyplot as plt
 plt.switch_backend('agg')
 import seaborn as sns
+from datetime import datetime, timedelta
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.model_selection import train_test_split
@@ -95,35 +96,36 @@ weblog_df['method'] = weblog_df['method'].astype('category')
 weblog_df['datetime'][3]-weblog_df['datetime'][2]
 
 #Calculate users' time on page 
-import datetime
-
 def time_on_page(dataset):
     unique_values = dataset['user'].unique()
     temp_2=[]
     
     for i in unique_values:
         temp = dataset[dataset['user'] == i]
-        indexes=temp.index
         
-        for j in range(len(indexes)):
+        temp = temp.reset_index(drop=True)
+        
+        for i in range(len(temp)):
             try:
-                past = temp['datetime'][indexes[j]]
-                future = temp['datetime'][indexes[j+1]]
-
+                past = temp['datetime'][i]
+                future = temp['datetime'][i + 1]
                 diff = future - past
-                if diff==datetime.timedelta(seconds=0):
-                    dataset["time_on_page"][indexes[j]]=datetime.timedelta(seconds=1)
-                else:  
-                    dataset["time_on_page"][indexes[j]]=diff
-
+                
+                temp_2.append([temp['user'][i], temp['datetime'][i], temp['request'][i], temp['page_category'][i], diff])
+                
             except:
-                dataset["time_on_page"][indexes[j]]=datetime.timedelta(seconds=0)
-
+                temp_2.append([temp['user'][i], temp['datetime'][i], temp['request'][i], temp['page_category'][i], timedelta(seconds=0)])
+    
+    dataset = pd.DataFrame(temp_2, columns=['user','datetime','request','page_category','time_on_page'])
     return dataset
 
 weblog_df = time_on_page(weblog_df)
 
 weblog_df['total_seconds'] = pd.to_timedelta(weblog_df['time_on_page']).view(np.int64) / 1e9
+
+path = 'weblog_df.csv'
+with open(path, 'w', encoding = 'utf-8-sig') as f:
+  weblog_df.to_csv(f)
 
 user_cluster = weblog_df.groupby('user')['request'].count()
 user_cluster = user_cluster.reset_index()
@@ -169,12 +171,13 @@ with open(path, 'w', encoding = 'utf-8-sig') as f:
 weblog_path = os.path.join("weblog_df.csv")
 weblog_df = pd.read_csv(weblog_path)
 
-weblog_df = weblog_df.drop(["Unnamed: 0", "Unnamed: 0.1"], axis=1)
+weblog_df = weblog_df.drop(["Unnamed: 0"], axis=1)
 
-weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%d/%b/%Y:%X %z')
+weblog_df['datetime'] = pd.to_datetime(weblog_df['datetime'], format='%Y-%m-%d %H:%M:%S%z')
 
 weblog_df['time_on_page'] = ''
 
+#Calculate users' time on page 
 def time_on_page(dataset):
     unique_values = dataset['user'].unique()
     temp_2=[]
@@ -190,11 +193,12 @@ def time_on_page(dataset):
                 future = temp['datetime'][i + 1]
                 diff = future - past
                 
-                temp_2.append([diff])
+                temp_2.append([temp['user'][i], temp['datetime'][i], temp['request'][i], temp['page_category'][i], diff])
                 
             except:
-                temp_2.append([datetime.timedelta(seconds=0)])
-                
+                temp_2.append([temp['user'][i], temp['datetime'][i], temp['request'][i], temp['page_category'][i], timedelta(seconds=0)])
+    
+    dataset = pd.DataFrame(temp_2, columns=['user','datetime','request','page_category','time_on_page'])
     return dataset
   
 weblog_df = time_on_page(weblog_df)
