@@ -314,7 +314,7 @@ def index():
     plt.rcParams['figure.figsize'] = (10, 6)
     color = plt.cm.winter(np.linspace(0, 1, 50))
     weblog['user'].value_counts().head(10).plot.barh(color = color)
-    plt.title('Top 30 Active Users IP Address', fontsize = 20)
+    plt.title('Top 10 Active Users IP Address', fontsize = 20)
     plt.xlabel('Frequency of Users Visiting the Website', fontsize = 12)
     plt.ylabel('Users IP Address', fontsize = 12)
     plt.savefig('active_user.png',bbox_inches="tight") 
